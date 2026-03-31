@@ -123,7 +123,7 @@ L'application s'ouvrira automatiquement dans votre navigateur à l'adresse `http
 
 ## 👥 Auteurs
 
-- **Étudiant 1** — [Nom]
-- **Étudiant 2** — [Nom]
+- **Étudiant 1** — Khalid Harrat
+- **Étudiant 2** — Ali Garmat
 
 Mini-Projet Systèmes Intelligents — 2025/2026
