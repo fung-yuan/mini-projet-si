@@ -17,47 +17,44 @@ Le **churn client** (attrition) est un enjeu majeur pour les entreprises de tél
 
 ## 🤖 Modèles Testés et Résultats
 
+Nous avons entraîné et comparé 5 modèles d'apprentissage supervisé. Voici les résultats sur le jeu de test :
+
 | Modèle | Accuracy | Precision | Recall | F1-Score | AUC |
 |--------|----------|-----------|--------|----------|-----|
-| Régression Logistique | ~0.80 | ~0.65 | ~0.55 | ~0.60 | ~0.84 |
-| Random Forest | ~0.79 | ~0.64 | ~0.48 | ~0.55 | ~0.82 |
-| SVM | ~0.80 | ~0.66 | ~0.52 | ~0.58 | ~0.83 |
-| k-NN | ~0.77 | ~0.57 | ~0.52 | ~0.54 | ~0.77 |
-| Arbre de Décision | ~0.73 | ~0.48 | ~0.52 | ~0.50 | ~0.66 |
+| **Logistic Regression** | **0.8034** | **0.6678** | 0.5160 | **0.5822** | **0.8465** |
+| Random Forest | 0.7857 | 0.6277 | 0.4733 | 0.5396 | 0.8228 |
+| SVM | 0.8027 | 0.6690 | 0.5080 | 0.5775 | 0.7980 |
+| k-NN | 0.7715 | 0.5743 | 0.5374 | 0.5552 | 0.7769 |
+| Decision Tree | 0.7537 | 0.5354 | 0.5455 | 0.5404 | 0.7174 |
 
-> **Note** : Les valeurs exactes seront mises à jour après exécution des notebooks.
+> Le modèle final retenu (sauvegardé pour l'interface web) est la **Régression Logistique**, qui offre le meilleur compromis (meilleur F1-Score et AUC).
 
 ### Analyse non supervisée
-- **K-Means Clustering** : 3 segments de clients identifiés avec des taux de churn différenciés
-- **PCA** : Réduction de dimensionnalité pour la visualisation et l'interprétation
+- **K-Means Clustering** : 3 segments de clients identifiés, permettant de cerner différents profils et taux de churn.
+- **PCA** : Projection en 2D pour visualiser et interpréter la séparation des clusters et du churn réel.
 
 ---
 
 ## 🏗️ Structure du Projet
 
-```
+```text
 mini-projet-si/
 ├── README.md                          # Ce fichier
 ├── requirements.txt                   # Dépendances Python
 ├── data/
-│   └── telco_churn.csv               # Dataset Telco Customer Churn
+│   └── telco_churn.csv                # Dataset Telco Customer Churn
 ├── notebooks/
-│   ├── 01_exploration.ipynb          # EDA et visualisations
-│   ├── 02_preprocessing.ipynb        # Prétraitement des données
-│   ├── 03_modeling.ipynb             # Entraînement et comparaison des modèles
-│   └── 04_clustering.ipynb           # Clustering (K-Means) et PCA
+│   └── projet_churn.ipynb             # Notebook unique et complet (EDA → Prétraitement → Modèles → Clustering)
 ├── src/
-│   ├── preprocessing.py              # Module de prétraitement
-│   ├── models.py                     # Module de modélisation
-│   └── utils.py                      # Utilitaires et visualisations
+│   ├── preprocessing.py               # Module de traitement et feature engineering
+│   ├── models.py                      # Module d'entraînement, comparaison et cross-validation
+│   └── utils.py                       # Utilitaires de visualisations (matrice confusion, ROC, etc.)
 ├── app/
-│   └── streamlit_app.py              # Interface Streamlit
-├── models/                           # Modèles sauvegardés (.pkl)
-│   ├── best_model.pkl
-│   ├── scaler.pkl
-│   └── feature_names.pkl
-└── rapport/
-    └── rapport.pdf                   # Rapport PDF (7-10 pages)
+│   └── streamlit_app.py               # Interface web interactive Streamlit finale
+└── models/                            # Modèles sauvegardés (générés après l'entraînement)
+    ├── best_model.pkl
+    ├── scaler.pkl
+    └── feature_names.pkl
 ```
 
 ---
@@ -72,53 +69,45 @@ mini-projet-si/
 
 ```bash
 # Cloner le dépôt
-git clone https://github.com/VOTRE_USER/mini-projet-si.git
+git clone https://github.com/fung-yuan/mini-projet-si.git
 cd mini-projet-si
 
 # Installer les dépendances
 pip install -r requirements.txt
 ```
 
-### Exécution des Notebooks
+### Exécution du Pipeline ML (Notebook)
 
+Pour afficher l'exploration de données, l'entraînement des modèles et les graphiques :
 ```bash
-# Option 1 : Jupyter Notebook
-jupyter notebook notebooks/
-
-# Option 2 : Exécution séquentielle en scripts
-python notebooks/01_exploration.py
-python notebooks/02_preprocessing.py
-python notebooks/03_modeling.py
-python notebooks/04_clustering.py
+jupyter notebook notebooks/projet_churn.ipynb
 ```
+*(Vous pouvez exécuter toutes les cellules de ce notebook pour recréer les fichiers de modèles dans le dossier `models/`)*
 
-### Lancer l'application Streamlit
+### Lancer l'application web Streamlit
+
+Notre application web interactive et stylisée permet d'estimer en temps réel le risque de churn d'un client !
 
 ```bash
 streamlit run app/streamlit_app.py
 ```
-
-L'application sera accessible à l'adresse `http://localhost:8501`.
-
----
-
-## 📦 Dépendances
-
-| Package | Version | Usage |
-|---------|---------|-------|
-| pandas | ≥1.5 | Manipulation des données |
-| numpy | ≥1.23 | Calculs numériques |
-| matplotlib | ≥3.6 | Visualisations |
-| seaborn | ≥0.12 | Visualisations statistiques |
-| scikit-learn | ≥1.2 | ML (modèles, métriques, prétraitement) |
-| streamlit | ≥1.28 | Interface web interactive |
-| joblib | ≥1.2 | Sérialisation des modèles |
+L'application s'ouvrira automatiquement dans votre navigateur à l'adresse `http://localhost:8501`.
 
 ---
 
-## 📊 Pipeline
+## 📦 Dépendances Principales
 
-```
+- `pandas` & `numpy` : Manipulation des données
+- `matplotlib` & `seaborn` : Visualisations (matrices de corrélation, features importance, etc.)
+- `scikit-learn` : Machine Learning (modèles, métriques, prétraitement, clustering)
+- `streamlit` : Interface web interactive
+- `joblib` : Sauvegarde et chargement des modèles sérialisés
+
+---
+
+## 📊 Workflow / Pipeline
+
+```text
 ┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
 │  Exploration │───▶│ Prétraitement│───▶│ Modélisation │───▶│  Interface   │
 │    (EDA)     │    │  (Cleaning)  │    │ (5 modèles)  │    │ (Streamlit)  │
