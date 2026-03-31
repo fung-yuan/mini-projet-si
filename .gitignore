@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Report (compiled separately)
+rapport/
+generate_figures.py
+download_data.py
+convert_notebooks.py
+train_model.py
+
+# Models (generated, too large)
+# models/*.pkl
+
+# Streamlit
+.streamlit/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
